@@ -1,0 +1,55 @@
+Sabrina Araújo 
+nUSP 12566182
+
+Mini EP6 - Docker
+
+Parte 1
+
+- No diretório /usr/src/pages estão os arquivos about.html, index.html e Caddyfile como especificados nas instruções
+
+- Nesse mesmo diretório adicionei o arquivo Dockerfile:
+FROM caddy:latest
+COPY index.html /usr/src/pages/index.html
+COPY Caddyfile /etc/caddy/Caddyfile
+
+- Criei o diretório /etc/caddy/
+
+- Executei os comandos para construir e executar a imagem Docker em usr/src/pages: 
+
+$ sudo docker build -t miniep6 .
+
+$ docker run -d -p 8080:80 miniep6
+
+Parte 2
+
+Para evitar reconstruir a imagem e interromper a execução podemos usar volumes do Docker com os seguintes comandos:
+
+$ sudo docker volume create caddy-pages
+
+$ sudo docker container run \
+	--name miniep6 \
+	-p 8080:80 \
+	-v caddy-pages:/usr/src/pages \
+	-d caddy:latest
+	
+Assim, 
+
+- construimos a imagem
+$ sudo docker build -t miniep6 .
+
+- criamos o volume
+$ sudo docker volume create caddy-pages
+
+- executamos o container
+$ sudo docker container run \
+	--name miniep6 \
+	-p 8080:80 \
+	-v caddy-pages:/usr/src/pages \
+	-d caddy:latest
+	
+
+	
+
+
+
+
